@@ -1,15 +1,9 @@
 const form = document.querySelector('#new-to-do');
 const input = document.querySelector('#input');
-const todayTodo = document.querySelector('#today-to-do');
-const body = document.body;
-const lisTodayTodo = document.querySelectorAll('#today-to-do li');
-const doneTodo = document.querySelector('#done-to-do');
-const lisDoneTodo = document.querySelectorAll('#done-to-do li');
+const todayTodo = document.querySelector('#today-to-do'); // UL Today
+const doneTodo = document.querySelector('#done-to-do'); // UL Done
 const deleteAllDoneTodoButton = document.querySelector('#delete-all-done-todo')
-
-// body.addEventListener('click', function(e){
-//   e.stopPropagation();
-// })
+const body = document.body;
 
 // Event listener to add new to do to the Today to do section
 form.addEventListener('submit', function(e){
@@ -26,65 +20,49 @@ form.addEventListener('submit', function(e){
   const newTodo = document.createElement('li');
   newTodo.textContent = todoText;
   
-  const deleteButton = document.createElement('span');
-  deleteButton.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
-  deleteButton.classList.add('delete-button');
-  newTodo.appendChild(deleteButton);
+  const deleteButtonSpan = document.createElement('span');
+  deleteButtonSpan.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
+  deleteButtonSpan.classList.add('delete-button');
+  newTodo.appendChild(deleteButtonSpan);
 
   todayTodo.appendChild(newTodo);
   input.value = '';
   console.log("success addding new to-do");
 })
 
-// event listener to move today to do to the done to do section
-// lisTodayTodo.forEach(li => {
-//   li.addEventListener('click', () => {
-//     console.log(`clicked ${li.textContent}`);
-//     li.classList.add('done');
-//     doneTodo.appendChild(li);
-//   })
-// })
+// Event delegation on Body to move to do between today to do and done to do & delete to do
+// handle click LI on both list (today and done) and click on delete(trash) icon
 
-//Event delegation from above (event listener to move today to do to the done to do section)
-todayTodo.addEventListener('click', e => {
+body.addEventListener('click', e => {
   const clickedElement = e.target;
-  if(clickedElement.tagName === 'LI' && !clickedElement.classList.contains('delete-button') && !clickedElement.closest('.delete-button')){
-     console.log(`clicked ${clickedElement.textContent}`);
-     clickedElement.classList.add('done');
-     doneTodo.appendChild(clickedElement);
-  }
 
+  //1. Logic to delete to-do
   const deleteButton = clickedElement.closest('.delete-button');
   if(deleteButton){
-    deleteButton.parentElement.remove();
-    console.log(`deleted: ${deleteButton.parentElement.textContent.trim()}`);
-    return;
-  }
-})
-
-// event listener to move done to do to the today to do section / undo done to do
-// lisDoneTodo.forEach(li=>{
-//   li.addEventListener('click', () => {
-//     li.classList.remove('done');
-//     todayTodo.appendChild(li);
-//   })
-// })
-
-// Event delegation from above (event listener to move done to do to the today to do section / undo done to do)
-doneTodo.addEventListener('click', e => {
-  const clickedElement = e.target;
-  if(clickedElement.tagName === 'LI' && !clickedElement.classList.contains('delete-button') && !clickedElement.closest('.delete-button')){
-     console.log(`clicked ${clickedElement.textContent}`);
-     clickedElement.classList.remove('done');
-     todayTodo.appendChild(clickedElement);
+    const listItemToRemove = deleteButton.parentElement; //parent from .delete-button is LI
+    if(listItemToRemove && listItemToRemove.tagName == 'LI'){
+      listItemToRemove.remove();
+      const originalText = listItemToRemove.textContent.replace(deleteButton.textContent, '').trim();
+      console.log(`deleted: ${originalText}`);
     }
-
-  const deleteButton = clickedElement.closest('.delete-button');
-   if(deleteButton){
-    deleteButton.parentElement.remove();
-    console.log(`deleted: ${deleteButton.parentElement.textContent.trim()}`);
     return;
   }
+
+  //2. Logic to move around the to-do between today to do and done to do
+  if(clickedElement.tagName === 'LI'){
+    if(clickedElement.parentElement.id === 'today-to-do'){
+      //if li clicked on today to do list
+      clickedElement.classList.add('done');
+      doneTodo.appendChild(clickedElement);
+      console.log(`moved to done to do list: ${clickedElement.textContent.trim()}`);
+    } else if(clickedElement.parentElement.id === 'done-to-do'){
+      //if li clicked on done to do list
+      clickedElement.classList.remove('done');
+      todayTodo.appendChild(clickedElement);
+      console.log(`moved to today to do list: ${clickedElement.textContent.trim()}`);
+    }
+  }
+
 })
 
 //Event listener to the delete all done to do button
