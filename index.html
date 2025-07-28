@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Simple To-Do List Apps</title>
+  <link rel="stylesheet" href="app.css">
+  <script src="https://kit.fontawesome.com/7f78a843de.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+  <h1>Simple To-Do list Apps</h1>
+  <form class="formInput" id="new-to-do" action="/sendTodo">
+    <input id="input" type="text" placeholder="Add your new To Do...">
+    <button>+</button>
+  </form>
+
+  <h2>Today To-Do List</h2>
+  <ul id="today-to-do">
+    <li>Taking eggs <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li>
+    <li>Cooking <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li>
+  </ul>
+
+
+  <h2>Done</h2>
+  <ul id="done-to-do">
+    <li class="done">Sweeping and mop the floor <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span>
+    </li>
+    <li class="done">Clean the windows <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li>
+  </ul>
+
+  <button id="delete-all-done-todo">Delete All Done To Do List</button>
+
+
+  <script src="app.js"></script>
+</body>
+
+</html>
