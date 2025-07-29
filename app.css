@@ -1,7 +1,122 @@
+html{
+  height: 100%;
+}
+
+body {
+  background-image: url(istvan-kovacs-XkwVptYRaRU-unsplash.jpg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+#input {
+  background-color: rgba(255, 255, 255, 0.6); 
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2); 
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  color: #363636;
+  transition: border-color 0.3s ease, background-color 0.7s;
+}
+
+
+#input:focus {
+  background-color: rgba(255, 255, 255, 0.9); 
+  outline: none; 
+  border-color: #ffffff; 
+  box-shadow: 0 0 0 2px rgba(253, 253, 253, 0.4); 
+}
+
+#input::placeholder {
+  color: #5a5a5a;
+  opacity: 0.8;
+}
+
+#new-to-do .button {
+  background-color: rgba(255, 255, 255,0.83); 
+  border: none;
+  color: #333333; 
+  font-weight: bold;
+}
+
+#new-to-do .button:hover {
+  background-color: #f2f2f2; 
+}
+
+
 .done{
   text-decoration: line-through;
 }
 
+.todo-app-panel { 
+  background-color: rgba(255, 255, 255, 0.15); 
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 15px;
+  padding: 1.5rem; 
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
+}
+
 li{
+  cursor: default;
+  background-color: rgba(255, 255, 255, 0.3); 
+  backdrop-filter: blur(12px); 
+  -webkit-backdrop-filter: blur(12px); 
+  border: 1px solid rgba(255, 255, 255, 0.3); 
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
+  padding: 1rem; 
+  margin-bottom: 0.75rem; 
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  transition: background-color 75ms;
+}
+
+li:hover{
+  background-color: rgba(255, 255, 255, 0.55);
+}
+
+.todo-text-area{
+  flex-grow: 1;
   cursor: pointer;
+  margin-right: 15px;
+  padding-right: 15px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.delete-button {
+  color: #555;
+  font-weight: bold;
+  cursor: pointer;
+  font-size: 1.1em;
+  padding: 0.2em;
+  border-radius: 4px;
+  transition: color 0.3s ease;
+  
+  flex-shrink: 0;
+}
+
+.delete-button:hover {
+  color: #ff3860;
+  background-color: transparent;
+}
+
+#delete-all-done-todo {
+  background-color: rgba(255, 255, 255,0.83);
+  border: none;
+  color: #ff3860;
+  font-weight: bold;
+  
+}
+
+#delete-all-done-todo:hover {
+  background-color: #f2f2f2;
 }

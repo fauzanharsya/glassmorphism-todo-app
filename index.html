@@ -5,34 +5,57 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Simple To-Do List Apps</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@1.0.4/css/bulma.min.css">
   <link rel="stylesheet" href="app.css">
   <script src="https://kit.fontawesome.com/7f78a843de.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
-  <h1>Simple To-Do list Apps</h1>
+  <section class="section">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-half todo-app-panel">
+          <h1 class="title is-3 has-text-centered has-text-white">Simple To Do List App</h1>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section pt-0">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-half todo-app-panel">
+
+          <form class="field is-grouped mb-5" id="new-to-do" action="/sendTodo">
+            <p class="control is-expanded">
+              <input id="input" class="input is-medium" type="text" placeholder="Add new To Do...">
+            </p>
+            <p class="control">
+              <button id="new-to-do" class="button is-medium">+</button>
+            </p>
+          </form>
+
+          <h2 class="title is-4 has-text-white">Today To Do</h2>
+
+          <ul id="today-to-do" class="mb-4">
+            <!-- Example -->
+            <!-- <li class="has-text-black"><span class="todo-text-area">Cooking</span><span class="delete-button"><i
+                  class="fa-solid fa-trash-can"></i></span></li> -->
+          </ul>
 
 
-  <h2>Today To-Do List</h2>
-  <form class="formInput" id="new-to-do" action="/sendTodo">
-    <input id="input" type="text" placeholder="Add your new To Do...">
-    <button>+</button>
-  </form>
-  <ul id="today-to-do">
-    <!-- <li>Taking eggs <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li>
-    <li>Cooking <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li> -->
-  </ul>
+          <h2 class="title is-4 has-text-white">Done To Do</h2>
+          <ul id="done-to-do" class="mb-4">
+            <!-- Example -->
+            <!-- <li class="has-text-black"><span class="todo-text-area">Watering Plants</span><span class="delete-button"><i
+                  class="fa-solid fa-trash-can"></i></span></li> -->
+          </ul>
 
-
-  <h2>Done</h2>
-  <ul id="done-to-do">
-    <!-- <li class="done">Sweeping and mop the floor <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span>
-    </li>
-    <li class="done">Clean the windows <span class="delete-button"><i class="fa-solid fa-trash-can"></i></span></li> -->
-  </ul>
-
-  <button id="delete-all-done-todo">Delete All Done To Do List</button>
-
+          <button id="delete-all-done-todo" class="button is-fullwidth is-medium">Delete All Done To Do</button>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <script src="app.js"></script>
 </body>

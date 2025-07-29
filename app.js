@@ -19,7 +19,12 @@ function saveTodos(){
 // this function will be used to load data and create new to do
 function createTodoElement(todoText, isDone = false){
   const newTodo = document.createElement('li');
-  newTodo.textContent = todoText;
+  newTodo.classList.add('has-text-black')
+
+  const todoTextArea = document.createElement('span');
+  todoTextArea.textContent = todoText;
+  todoTextArea.classList.add('todo-text-area');
+  newTodo.appendChild(todoTextArea);
   
   const deleteButtonSpan = document.createElement('span');
   deleteButtonSpan.innerHTML = '<i class="fa-solid fa-trash-can"></i>';
@@ -34,31 +39,40 @@ function createTodoElement(todoText, isDone = false){
 }
 
 function loadTodos(){
-  const storedTodayTodos = localStorage.getItem('todayTodos');
-  const storedDoneTodos = localStorage.getItem('doneTodos');
 
-  //delete everything default ul content
-  todayTodo.innerHTML = '';
-  doneTodo.innerHTML = '';
+  const hasBeenUsed = localStorage.getItem('appHasBeenUsed');
 
-  if(storedTodayTodos){
+  if(!hasBeenUsed){
+    console.log('First time load. Creating dummy data...')
+
+    todayTodos = ['Buy Groceries', 'Cooking'];
+    doneTodos = ['Take a Shower', 'Watering Plants'];
+
+    saveTodos();
+
+    localStorage.setItem('appHasBeenUsed', 'true');
+  } else{
+    console.log("Todos loaded from localStorage!");
+    const storedTodayTodos = localStorage.getItem('todayTodos');
+    const storedDoneTodos = localStorage.getItem('doneTodos');
+
     todayTodos = JSON.parse(storedTodayTodos);
-    todayTodos.forEach(todoText => {
-      const li = createTodoElement(todoText, false);
-      todayTodo.appendChild(li);
-    })
-  } 
-
-  if(storedDoneTodos){
     doneTodos = JSON.parse(storedDoneTodos);
-    doneTodos.forEach(todoText => {
-      const li = createTodoElement(todoText, true);
-      doneTodo.appendChild(li);
-    })
   }
 
-  console.log("Todos loaded from localStorage!");
+   //delete everything default ul content
+    todayTodo.innerHTML = '';
+    doneTodo.innerHTML = '';
+  
+  todayTodos.forEach(todoText => {
+    const li = createTodoElement(todoText, false);
+    todayTodo.appendChild(li);
+  });
 
+  doneTodos.forEach(todoText => {
+    const li = createTodoElement(todoText, true);
+    doneTodo.appendChild(li);
+  });
 }
 
 // Event listener to add new to do to the Today to do section
@@ -75,7 +89,6 @@ form.addEventListener('submit', function(e){
 
   const newTodoElement = createTodoElement(todoText, false);
   todayTodo.appendChild(newTodoElement); // add to the dom
-
   todayTodos.push(todoText);
 
   input.value = '';
@@ -94,7 +107,7 @@ body.addEventListener('click', e => {
   if(deleteButton){
     const listItemToRemove = deleteButton.parentElement; //parent from .delete-button is LI
     if(listItemToRemove && listItemToRemove.tagName == 'LI'){
-      const todoTextToRemove = deleteButton.parentElement.textContent.trim();
+      const todoTextToRemove = listItemToRemove.querySelector('.todo-text-area').textContent.trim();
       
       if(listItemToRemove.parentElement.id === 'today-to-do'){
         todayTodos = todayTodos.filter(todo => todo !== todoTextToRemove);
@@ -111,27 +124,29 @@ body.addEventListener('click', e => {
   }
 
   //2. Logic to move around the to-do between today to do and done to do
-  if(clickedElement.tagName === 'LI'){
-    const todoTextToMove = clickedElement.textContent.trim();
+  const todoTextAreaClicked = clickedElement.closest('.todo-text-area');
+  if(todoTextAreaClicked){
+    const listItemToMove = todoTextAreaClicked.parentElement;
+    const todoTextToMove = todoTextAreaClicked.textContent.trim();
 
-    if(clickedElement.parentElement.id === 'today-to-do'){
+    if(listItemToMove.parentElement.id === 'today-to-do'){
       //if li clicked on today to do list
-      clickedElement.classList.add('done');
-      doneTodo.appendChild(clickedElement);
+      listItemToMove.classList.add('done');
+      doneTodo.appendChild(listItemToMove);
 
       todayTodos = todayTodos.filter(todo => todo !== todoTextToMove);
       doneTodos.push(todoTextToMove);
 
-      console.log(`moved to done to do list: ${clickedElement.textContent.trim()}`);
-    } else if(clickedElement.parentElement.id === 'done-to-do'){
+      console.log(`moved to done to do list: ${todoTextToMove}`);
+    } else if(listItemToMove.parentElement.id === 'done-to-do'){
       //if li clicked on done to do list
-      clickedElement.classList.remove('done');
-      todayTodo.appendChild(clickedElement);
+      listItemToMove.classList.remove('done');
+      todayTodo.appendChild(listItemToMove);
 
       doneTodos = doneTodos.filter(todo => todo !== todoTextToMove);
       todayTodos.push(todoTextToMove);
 
-      console.log(`moved to today to do list: ${clickedElement.textContent.trim()}`);
+      console.log(`moved to today to do list: ${listItemToMove}`);
     }
     saveTodos()
   }
